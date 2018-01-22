@@ -12,7 +12,7 @@ import com.blogger.user.domain.User;
  * @since 1.8
  */
 
-public interface Userdao {
+public interface UserDao {
 
     /**
      * 检查用户名和密码是否正确
@@ -36,9 +36,9 @@ public interface Userdao {
     /**
      * 更新用户信息
      *
-     * @param userId
+     * @param user
      * @return
      * @throws Exception
      */
-    int updateLoginInfo(Integer userId) throws Exception;
+    int updateLoginInfo(User user) throws Exception;
 }

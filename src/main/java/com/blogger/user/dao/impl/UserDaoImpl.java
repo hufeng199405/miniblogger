@@ -1,6 +1,6 @@
 package com.blogger.user.dao.impl;
 
-import com.blogger.user.dao.Userdao;
+import com.blogger.user.dao.UserDao;
 import com.blogger.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class UserdaoImpl implements Userdao {
+public class UserDaoImpl implements UserDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -32,15 +32,22 @@ public class UserdaoImpl implements Userdao {
      */
     public int getMatchCount(String userName, String password) throws Exception {
 
-        this.jdbcTemplate.queryfor
-        return 0;
+        return this.jdbcTemplate.queryForObject(" select count(0) from user_record where user_name = ? and password = ?", Integer.class);
     }
 
     public User findByUserName(String userName) throws Exception {
-        return null;
+
+        String sql = "select * from user_record where user_name = ?";
+
+        return this.jdbcTemplate.queryForObject(sql, User.class);
     }
 
-    public int updateLoginInfo(Integer userId) throws Exception {
-        return 0;
+    public int updateLoginInfo(User user) throws Exception {
+
+        String sql = "update user_record set credits = ?,last_visit = ? , last_ip = ? where user_id = ?";
+
+        Object object = new Object[]{user.getCredits(), user.getLastVisit(), user.getLastIp(), user.getUserId()};
+
+        return this.jdbcTemplate.update(sql, object);
     }
 }
