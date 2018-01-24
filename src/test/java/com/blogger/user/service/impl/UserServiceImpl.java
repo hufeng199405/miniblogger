@@ -29,15 +29,16 @@ public class UserServiceImpl implements UserService {
     private Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
-    private UserDao userDao;
+    private UserDao userDaoImpl;
 
-    private UserLogInLogDao userLogInLogDao;
+    @Autowired
+    private UserLogInLogDao userLogInLogDaoImpl;
 
     @Transactional
-    public User userLogin(String userName, String password) throws Exception {
+    public User updateUserLogin(String userName, String password) throws Exception {
 
         // 1、验证账户的有效性
-        int count = this.userDao.getMatchCount(userName, password);
+        int count = this.userDaoImpl.getMatchCount(userName, password);
 
         if (count <= 0) {
 
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 查询当前的用户信息
-        User user = this.userDao.findByUserName(userName);
+        User user = this.userDaoImpl.findByUserName(userName);
 
         // 给当前用户加上5分
         user.setCredits(user.getCredits() + 5);
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
         user.setLastVisit(Myutils.LocalDateTimeToUdate());
 
         // 2、给当前客户增加积分
-        this.userDao.updateLoginInfo(user);
+        this.userDaoImpl.updateLoginInfo(user);
 
         UserLogInLog userLogInLog = new UserLogInLog();
 
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
         userLogInLog.setUserId(user.getUserId());
 
         // 3、添加登录记录
-        this.userLogInLogDao.insertUserLogDaoRecord(userLogInLog);
+        this.userLogInLogDaoImpl.insertUserLogDaoRecord(userLogInLog);
 
         return user;
     }

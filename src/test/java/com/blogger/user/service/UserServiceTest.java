@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
-    private UserService userService;
+    private UserService userServiceImpl;
 
     @Test
     public void userLogin() throws Exception {
@@ -29,6 +29,8 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
         String userName = "hufeng";
         String password = "123";
 
-        User user = this.userService.userLogin(userName, password);
+        User user = this.userServiceImpl.updateUserLogin(userName, password);
+
+        System.out.println(user.getLastIp());
     }
 }

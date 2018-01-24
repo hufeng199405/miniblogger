@@ -22,5 +22,5 @@ public interface UserService {
      * @return
      * @throws Exception
      */
-    User userLogin(String userName, String password) throws Exception;
+    User updateUserLogin(String userName, String password) throws Exception;
 }
