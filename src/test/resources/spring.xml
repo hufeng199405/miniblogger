@@ -10,7 +10,9 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.2.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/context/spring-aop-4.2.xsd">
+       http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
     <!--自动扫描包-->
     <context:component-scan base-package="com.blogger"/>
@@ -27,13 +29,13 @@
         p:dataSource-ref="datasource"/>
 
     <!-- 配置事务管理器 -->
-    <bean id="transactionmanager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
         p:dataSource-ref="datasource"/>
 
     <!-- 通过AOP配置提供事物，让service包下的所有bean的指定方法拥有事物，使用cglib代理 .. 表示service下的所有的子包 (..)表示所有方法-->
     <aop:config proxy-target-class="true">
-        <aop:pointcut id="serviceMethod" expression="(execution(* com.blogger.*.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))"/>
-        <aop:advisor advice-ref="txadvice" pointcut-ref="serviceMethod"/>
+        <aop:pointcut id="serviceMethod" expression="(execution(* com.blogger.*.service.*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
     </aop:config>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
