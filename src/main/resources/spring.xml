@@ -20,7 +20,7 @@
     <!-- 装配datasource -->
     <bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
         p:driverClassName="com.mysql.jdbc.Driver"
-        p:url="jdbc:mysql://localhost:3306/blogger"
+        p:url="jdbc:mysql://localhost:3306/blogger?seUnicode=true&amp;characterEncoding=UTF8"
         p:username="root"
         p:password="hufeng"/>
 
@@ -34,14 +34,14 @@
 
     <!-- 通过AOP配置提供事物，让service包下的所有bean的指定方法拥有事物，使用cglib代理 .. 表示service下的所有的子包 (..)表示所有方法-->
     <aop:config proxy-target-class="true">
-        <aop:pointcut id="serviceMethod" expression="(execution(* com.blogger.user.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))"/>
+        <aop:pointcut id="serviceMethod" expression="(execution(* com.blogger.user.service.*.*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
     </aop:config>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="insert*"/>
-            <tx:method name="update*"/>
-            <tx:method name="delete*"/>
+            <tx:method name="insert*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="update*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="delete*" propagation="REQUIRED" read-only="false"/>
         </tx:attributes>
     </tx:advice>
 </beans>

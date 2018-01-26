@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userDaoImpl.findByUserName(userName);
 
         // 给当前用户加上5分
-        user.setCredits(user.getCredits() + 5);
+        user.setCredits(user.getCredits()==null?0:user.getCredits() + 5);
         // 更新最后登录相关状态
         user.setLastIp("暂时为空");
 

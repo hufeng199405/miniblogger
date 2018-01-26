@@ -1,4 +1,4 @@
-package com.blogger.user.service;
+package com.blogger.user.web;
 
 import com.blogger.user.domain.User;
 import com.blogger.user.service.UserService;

@@ -33,7 +33,7 @@ public class User implements Serializable {
     /**
      * 积分
      */
-    private String credits;
+    private Integer credits;
 
     /**
      * 最后一次登录时间
@@ -69,11 +69,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getCredits() {
+    public Integer getCredits() {
         return credits;
     }
 
-    public void setCredits(String credits) {
+    public void setCredits(Integer credits) {
         this.credits = credits;
     }
 

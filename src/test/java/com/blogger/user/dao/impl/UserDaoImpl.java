@@ -60,10 +60,14 @@ public class UserDaoImpl implements UserDao {
 
         String sql = "update user_record set credits = ?,last_visit = ? , last_ip = ? where user_id = ?";
 
-        Object object = new Object[]{user.getCredits(), user.getLastVisit(), user.getLastIp(), user.getUserId()};
+        Object[] object = new Object[]{user.getCredits(), user.getLastVisit(), user.getLastIp(), user.getUserId()};
 
         logger.info("插入前数据：" + user.getCredits() + user.getLastVisit() + user.getLastIp() + user.getUserId());
 
-        return this.jdbcTemplate.update(sql, object);
+        int result = this.jdbcTemplate.update(sql, object);
+
+        logger.info("修改用户信息返回:"+result);
+
+        return result;
     }
 }
