@@ -33,7 +33,7 @@ public class UserLogInLogDaoImpl implements UserLogInLogDao {
 
         int result = jdbcTemplate.update(sql, objects);
 
-        logger.info("插入日志返回结果:" + result);
+        logger.info("插入日志返回结果:" + result+userLogInLog.getLoginId()+"--"+userLogInLog.getLoginTime());
 
         return result;
     }

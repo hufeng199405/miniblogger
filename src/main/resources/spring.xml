@@ -32,16 +32,16 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
         p:dataSource-ref="datasource"/>
 
-    <!-- 通过AOP配置提供事物，让service包下的所有bean的指定方法拥有事物，使用cglib代理 .. 表示service下的所有的子包 (..)表示所有方法-->
+    <!-- 通过AOP配置提供事物，让service包下的所有bean的指定方法拥有事物，使用cglib代理 .*.*表示service下的所有的子包 (..)表示所有方法-->
     <aop:config proxy-target-class="true">
         <aop:pointcut id="serviceMethod" expression="(execution(* com.blogger.user.service.*.*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
     </aop:config>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="insert*" propagation="REQUIRED" read-only="false"/>
-            <tx:method name="update*" propagation="REQUIRED" read-only="false"/>
-            <tx:method name="delete*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="insert*" rollback-for="Thorwable"/>
+            <tx:method name="update*" rollback-for="Thorwable"/>
+            <tx:method name="delete*" rollback-for="Thorwable"/>
         </tx:attributes>
     </tx:advice>
 </beans>

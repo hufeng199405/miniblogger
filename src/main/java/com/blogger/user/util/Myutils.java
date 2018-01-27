@@ -19,7 +19,7 @@ public class Myutils {
 
     public static Date LocalDateTimeToUdate() {
 
-        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime localDateTime = LocalDateTime.now().withNano(0);
 
         ZoneId zone = ZoneId.systemDefault();
 

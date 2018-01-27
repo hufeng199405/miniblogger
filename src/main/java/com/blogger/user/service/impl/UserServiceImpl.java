@@ -9,9 +9,9 @@ import com.blogger.user.util.Myutils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 /**
  * 类备注：
@@ -37,41 +37,49 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User updateUserLogin(String userName, String password) throws Exception {
 
-        // 1、验证账户的有效性
-        int count = this.userDaoImpl.getMatchCount(userName, password);
+        User user = null;
 
-        if (count <= 0) {
+        try {
 
-            this.logger.error("账户密码不正确！");
-            return null;
+            // 1、验证账户的有效性
+            int count = this.userDaoImpl.getMatchCount(userName, password);
+
+            if (count <= 0) {
+
+                this.logger.error("账户密码不正确！");
+                return null;
+            }
+
+            // 查询当前的用户信息
+            user = this.userDaoImpl.findByUserName(userName);
+
+            // 给当前用户加上5分
+            user.setCredits((user.getCredits() == null ? 0 : user.getCredits()) + 5);
+            // 更新最后登录相关状态
+            user.setLastIp("暂时为空");
+
+            user.setLastVisit(Myutils.LocalDateTimeToUdate());
+
+            // 2、给当前客户增加积分
+            this.userDaoImpl.updateLoginInfo(user);
+
+            UserLogInLog userLogInLog = new UserLogInLog();
+
+            // 登录主键
+            userLogInLog.setLoginId(2);
+            // 登录时间
+            userLogInLog.setLoginTime(Myutils.LocalDateTimeToUdate());
+            // 登录ip
+            userLogInLog.setIp("暂时为空");
+            // 登录用户ids
+            userLogInLog.setUserId(user.getUserId());
+
+            // 3、添加登录记录
+            this.userLogInLogDaoImpl.insertUserLogDaoRecord(userLogInLog);
+        } catch (Exception e) {
+
+            logger.error("事务出错", e);
         }
-
-        // 查询当前的用户信息
-        User user = this.userDaoImpl.findByUserName(userName);
-
-        // 给当前用户加上5分
-        user.setCredits(user.getCredits()==null?0:user.getCredits() + 5);
-        // 更新最后登录相关状态
-        user.setLastIp("暂时为空");
-
-        user.setLastVisit(Myutils.LocalDateTimeToUdate());
-
-        // 2、给当前客户增加积分
-        this.userDaoImpl.updateLoginInfo(user);
-
-        UserLogInLog userLogInLog = new UserLogInLog();
-
-        // 登录主键
-        userLogInLog.setLoginId(1);
-        // 登录时间
-        userLogInLog.setLoginTime(Myutils.LocalDateTimeToUdate());
-        // 登录ip
-        userLogInLog.setIp("暂时为空");
-        // 登录用户ids
-        userLogInLog.setUserId(user.getUserId());
-
-        // 3、添加登录记录
-        this.userLogInLogDaoImpl.insertUserLogDaoRecord(userLogInLog);
 
         return user;
     }

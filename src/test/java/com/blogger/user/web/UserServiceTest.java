@@ -3,8 +3,10 @@ package com.blogger.user.web;
 import com.blogger.user.domain.User;
 import com.blogger.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.testng.annotations.Test;
 
 /**
@@ -18,19 +20,25 @@ import org.testng.annotations.Test;
  */
 
 @ContextConfiguration("classpath*:spring.xml")
+@Rollback(false)
 public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
     private UserService userServiceImpl;
 
     @Test
-    public void userLogin() throws Exception {
+    public void userLogin() {
 
-        String userName = "hufeng";
-        String password = "123";
+        try {
 
-        User user = this.userServiceImpl.updateUserLogin(userName, password);
+            String userName = "hufeng";
+            String password = "123";
 
-        System.out.println(user.getLastIp());
+            User user = this.userServiceImpl.updateUserLogin(userName, password);
+
+            System.out.println(user.getLastIp());
+        } catch (Exception e) {
+
+        }
     }
 }
