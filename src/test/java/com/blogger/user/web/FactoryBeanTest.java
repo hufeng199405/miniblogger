@@ -30,7 +30,7 @@ public class FactoryBeanTest {
         // 加载xml资源
         ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 
-        Resource[] resources = resourcePatternResolver.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX+"spring.xml");
+        Resource[] resources = resourcePatternResolver.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX+"spring-car.xml");
 
         Resource resource = resources[0];
 
@@ -42,10 +42,13 @@ public class FactoryBeanTest {
         // 加载资源文件
         xmlReader.loadBeanDefinitions(resource);
 
-        // 从factory中获取bean
-        UserServiceImpl userServiceImpl = factory.getBean("userServiceImpl", UserServiceImpl.class);
+        // 往容器中注册后置处理器
+        factory.addBeanPostProcessor(new MyinstantiationAwareBeanPostProcessor());
 
-        System.out.println(userServiceImpl.toString());
+        // 从factory中获取bean
+        Car car = factory.getBean("car", Car.class);
+
+        System.out.println(car.toString());
 
         /*BasicDataSource userServiceImpl1 = factory.getBean("jdbcTemplate", BasicDataSource.class);
 
