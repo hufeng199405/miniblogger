@@ -1,17 +1,13 @@
 package com.blogger.user.web;
 
-import com.blogger.user.service.impl.UserServiceImpl;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.beans.factory.BeanFactory;
+import com.blogger.user.domain.Car;
+import com.blogger.user.springtest.MyinstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.testng.annotations.Test;
-
-import javax.sql.rowset.spi.XmlReader;
 
 /**
  * 类备注：

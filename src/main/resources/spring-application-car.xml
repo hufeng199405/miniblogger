@@ -7,4 +7,10 @@
 
         <bean id="car" class="com.blogger.user.domain.Car"
         p:id="1" p:color="black"/>
+
+        <!--spring 工厂信息后置处理器-->
+        <bean id="mybeanFactoryPostProcesser" class="com.blogger.user.springtest.MybeanFactoryPostProcesser"/>
+
+        <!--spring bean初始化后置处理器-->
+        <bean id="myinstantiationAwareBeanPostProcessor" class="com.blogger.user.springtest.MyinstantiationAwareBeanPostProcessor"/>
 </beans>

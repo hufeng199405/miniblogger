@@ -50,14 +50,12 @@ public class Car implements BeanNameAware,BeanFactoryAware,InitializingBean,Disp
     @Override
     public void destroy() throws Exception {
 
-        this.beanName = name;
         logger.info("car Bean调用destroy方法销毁bean");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        this.beanName = name;
         logger.info("car Bean调用afterPropertiesSet初始化bean");
     }
 

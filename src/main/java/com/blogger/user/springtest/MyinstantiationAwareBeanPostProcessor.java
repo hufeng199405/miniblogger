@@ -1,7 +1,10 @@
-package com.blogger.user.web;
+package com.blogger.user.springtest;
 
+import com.blogger.user.domain.Car;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 
@@ -27,6 +30,7 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessBeforeInstantiation方法");
         }
+
         return null;
     }
 
@@ -37,17 +41,26 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessAfterInstantiation方法");
         }
-        return false;
+
+        return true;
     }
 
     @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
 
-        if(Car.BEAN_NAME_CAR.equals(beanName)){
+        if (Car.BEAN_NAME_CAR.equals(beanName)) {
 
             logger.info("car Bean调用自定义的postProcessPropertyValues方法");
         }
-        return null;
+
+        MutablePropertyValues ms = (MutablePropertyValues) pvs;
+
+        // 重新定义一个PropertyValue覆盖之前的
+        PropertyValue newProperty = new PropertyValue("color", "yellow");
+
+        ms.addPropertyValue(newProperty);
+
+        return pvs;
     }
 
     @Override
@@ -57,7 +70,7 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessBeforeInitialization方法");
         }
-        return null;
+        return bean;
     }
 
     @Override
@@ -67,6 +80,6 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessAfterInitialization方法");
         }
-        return null;
+        return bean;
     }
 }
