@@ -3,8 +3,6 @@ package com.blogger.user.springtest;
 import com.blogger.user.domain.Car;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 
@@ -30,7 +28,6 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessBeforeInstantiation方法");
         }
-
         return null;
     }
 
@@ -41,14 +38,13 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessAfterInstantiation方法");
         }
-
-        return true;
+        return false;
     }
 
     @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
 
-        if (Car.BEAN_NAME_CAR.equals(beanName)) {
+        if(Car.BEAN_NAME_CAR.equals(beanName)){
 
             logger.info("car Bean调用自定义的postProcessPropertyValues方法");
         }
@@ -70,16 +66,30 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessBeforeInitialization方法");
         }
-        return bean;
+        return null;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-        if(Car.BEAN_NAME_CAR.equals(beanName)){
+        /*if (Car.BEAN_NAME_CAR.equals(beanName)) {
+
+            Car car = new Car();
+
+            car.setId(10);
+            car.setColor("black");
+
+            logger.info("car Bean调用自定义的postProcessAfterInitialization方法");
+
+            return car;
+        } else {
+
+            return bean;
+        }*/
+        if (Car.BEAN_NAME_CAR.equals(beanName)) {
 
             logger.info("car Bean调用自定义的postProcessAfterInitialization方法");
         }
-        return bean;
+        return null;
     }
 }

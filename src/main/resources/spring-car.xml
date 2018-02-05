@@ -6,5 +6,5 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
         <bean id="car" class="com.blogger.user.domain.Car"
-        p:id="1" p:color="black"/>
+        p:id="1" p:color="yellow" p:name="big-car" init-method="afterPropertiesSet" destroy-method="destroy"/>
 </beans>
