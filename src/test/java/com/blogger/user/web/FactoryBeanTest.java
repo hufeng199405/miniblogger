@@ -2,6 +2,7 @@ package com.blogger.user.web;
 
 import com.blogger.user.domain.Car;
 import com.blogger.user.service.impl.UserServiceImpl;
+import com.blogger.user.springtest.MyinstantiationAwareBeanPostProcessor;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
