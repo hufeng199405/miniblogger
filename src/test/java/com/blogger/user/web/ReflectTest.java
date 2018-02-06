@@ -4,7 +4,9 @@ import com.blogger.user.domain.Car;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * 类备注：
@@ -26,6 +28,12 @@ public class ReflectTest {
 
         Field[] field = car.getDeclaredFields();
 
+        Constructor<Car> constructor = car.getConstructor();
+
+        constructor.setAccessible(true);
+
+        Car carInst = constructor.newInstance();
+
         for (Field f : field) {
 
             // 取消java语言检查
@@ -33,10 +41,15 @@ public class ReflectTest {
 
             if (f.getName() == "id") {
 
-                f.set(new Integer(), 110);
+                f.set(carInst, 110);
+                logger.info(carInst.getId());
             }
 
-            logger.info(f);
+            if (f.getName() == "name") {
+
+                f.set(carInst, "hufeng");
+                logger.info(carInst.getName());
+            }
         }
     }
 }
