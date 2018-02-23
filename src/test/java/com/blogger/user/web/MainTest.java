@@ -3,6 +3,9 @@ package com.blogger.user.web;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 类备注：
  *
@@ -19,8 +22,17 @@ public class MainTest {
     @Test
     private void mytest() {
 
-        String aa =  "fdsfsd$sdf";
+        String aa =  "1m² < X <= 10m²";
 
-        logger.info(aa.split("\\$")[0]);
+        String regex = "\\d+";
+
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher matcher = pattern.matcher(aa);
+
+        while(matcher.find()){
+
+            logger.info(matcher.group());
+        }
     }
 }
