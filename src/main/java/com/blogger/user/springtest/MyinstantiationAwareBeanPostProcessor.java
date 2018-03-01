@@ -68,7 +68,7 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessBeforeInitialization方法");
         }
-        return null;
+        return bean;
     }
 
     @Override
@@ -92,6 +92,6 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessAfterInitialization方法");
         }
-        return null;
+        return bean;
     }
 }
