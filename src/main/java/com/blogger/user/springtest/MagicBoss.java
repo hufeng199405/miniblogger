@@ -2,7 +2,10 @@ package com.blogger.user.springtest;
 
 import com.blogger.user.domain.Car;
 
-public interface MagicBoss {
+public class MagicBoss {
 
-    Car getCar();
+    public Car getCar(){
+
+        return new Car();
+    }
 }

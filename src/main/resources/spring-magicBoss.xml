@@ -2,11 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
-        <bean id="car" class="com.blogger.user.domain.Car" p:color="black" p:name="test"/>
+    <context:component-scan base-package="com.blogger.user.springtest">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+    
+    <bean id="car" class="com.blogger.user.domain.Car" p:color="black" p:name="test"/>
 
-        <bean id="magicBoss" class="com.blogger.user.springtest.MagicBoss">
-            <lookup-method name="getCar" bean="car"></lookup-method>
-        </bean>
+    <!--<bean id="magicBoss" class="com.blogger.user.springtest.MagicBoss">
+        <lookup-method name="getCar" bean="car"></lookup-method>
+    </bean>-->
+
+    <bean id="magicBoss" class="com.blogger.user.springtest.MagicBoss">
+    </bean>
 </beans>
