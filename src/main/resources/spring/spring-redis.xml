@@ -16,6 +16,9 @@
           p:port="${redis.port}"
         p:poolConfig-ref="poolConfig"/>
 
-    <!--redis连接池-->
+    <!--redis连接池,暂时配置，可为空-->
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig"/>
+
+    <!--配置redis 模板访问-->
+    <bean />
 </beans>
