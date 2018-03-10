@@ -27,7 +27,9 @@ public class RedisTest {
 
         RedisService redisService = applicationContext.getBean("redisService", RedisService.class);
 
-        redisService.getHashOperations().put("test","mykey","myValue2");
+        //redisService.getHashOperations().put("test","mykey","myValue2");
+
+        redisService.getHashOperations().delete("test", "mykey");
 
         logger.info(redisService.getHashOperations().get("test", "mykey"));
     }
