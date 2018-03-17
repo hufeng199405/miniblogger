@@ -1,9 +1,8 @@
 package com.blogger.user.aop;
 
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
-import org.springframework.aop.AfterReturningAdvice;
-import org.springframework.cglib.proxy.MethodInterceptor;
-import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
@@ -21,7 +20,18 @@ public class MyAroundAdvice implements MethodInterceptor {
     Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        return null;
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+
+        // 目标传入参数
+        Object[] args = invocation.getArguments();
+
+        logger.info("增加事务开始,当前传入的值为" + args[0] + "=====");
+
+        // 目标对象
+        Object obj = invocation.proceed();
+
+        logger.info("增加事务结束,当前传入的值为" + args[0] + "=====");
+
+        return obj;
     }
 }

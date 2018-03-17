@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--环绕增强-->
+    <bean class="com.blogger.user.aop.MyAroundAdvice" id="myAroundAdvice"/>
+
+    <!--目标-->
+    <bean class="com.blogger.user.aop.SimulateUserOperateImpl" id="simulateUserOperate"/>
+
+    <!--目标-->
+    <bean class="com.blogger.user.aop.SimulateUserNoInteface" id="simulateUserNoInteface"/>
+
+    <bean abstract="true" id="aopTest" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:proxyTargetClass="true"
+          p:interceptorNames="myAroundAdvice"/>
+
+    <!--目标-->
+    <bean id="simulateTarge" parent="aopTest" p:target-ref="simulateUserOperate"/>
+
+    <bean id="simulateTargeNoInteface" parent="aopTest" p:target-ref="simulateUserNoInteface"/>
+</beans>
