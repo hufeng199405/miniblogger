@@ -1,6 +1,7 @@
 package com.blogger.user.aop;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  * 类备注：
@@ -11,6 +12,7 @@ import org.apache.log4j.Logger;
  * @desc
  * @since 1.8
  */
+@Component
 public class SimulateUserOperateImpl implements SimulateUserOperate {
 
     Logger logger = Logger.getLogger(this.getClass());

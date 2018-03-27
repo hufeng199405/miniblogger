@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.springframework.aop.AfterAdvice;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -16,6 +18,7 @@ import java.lang.reflect.Method;
  * @desc
  * @since 1.8
  */
+@Component
 public class MyAfterAdvice implements AfterReturningAdvice {
 
     Logger logger = Logger.getLogger(this.getClass());

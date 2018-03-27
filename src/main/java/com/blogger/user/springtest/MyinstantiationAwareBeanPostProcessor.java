@@ -40,7 +40,7 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
             logger.info("car Bean调用自定义的postProcessAfterInstantiation方法");
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -48,15 +48,15 @@ public class MyinstantiationAwareBeanPostProcessor implements  InstantiationAwar
 
         if(Car.BEAN_NAME_CAR.equals(beanName)){
 
+            MutablePropertyValues ms = (MutablePropertyValues) pvs;
+
+            // 重新定义一个PropertyValue覆盖之前的
+            PropertyValue newProperty = new PropertyValue("color", "yellow");
+
+            ms.addPropertyValue(newProperty);
+
             logger.info("car Bean调用自定义的postProcessPropertyValues方法");
         }
-
-        MutablePropertyValues ms = (MutablePropertyValues) pvs;
-
-        // 重新定义一个PropertyValue覆盖之前的
-        PropertyValue newProperty = new PropertyValue("color", "yellow");
-
-        ms.addPropertyValue(newProperty);
 
         return pvs;
     }

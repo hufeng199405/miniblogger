@@ -24,15 +24,16 @@ public class BossContextTest {
     @Test
     public void bossTest() {
 
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "spring-car.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "spring-application-car.xml");
 
-        ApplicationContext applicationContext1 = new ClassPathXmlApplicationContext(new String[]{ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "spring-car1.xml"}, applicationContext);
+        /*ApplicationContext applicationContext1 = new ClassPathXmlApplicationContext(new String[]{ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "spring-car1.xml"}, applicationContext);*/
 
-        Boss boss = applicationContext1.getBean("boss", Boss.class);
+        Boss boss = applicationContext.getBean("boss", Boss.class);
 
-        logger.info(boss.getFa().get(0));
+       /* logger.info(boss.getFa().get(0));
         logger.info(boss.getFaArrays()[0]);
         logger.info(boss.getMap().get("xxx"));
-        logger.info(boss.getProperties().getProperty("myProp1"));
+        logger.info(boss.getProperties().getProperty("myProp1"));*/
+        logger.info("boss中的car bean为 :" + boss.getCar().getColor());
     }
 }
