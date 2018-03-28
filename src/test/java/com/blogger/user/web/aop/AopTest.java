@@ -5,6 +5,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.BeforeAdvice;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.aop.support.NameMatchMethodPointcut;
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
@@ -21,7 +23,7 @@ import org.testng.annotations.Test;
  */
 public class AopTest {
 
-    /*@Test
+    @Test
     public void aoptestImpl() throws Exception {
 
         SimulateUserOperate simulateUserOperate = new SimulateUserOperateImpl();
@@ -46,7 +48,7 @@ public class AopTest {
         simulateUserOperate = (SimulateUserOperate) factory.getProxy();
 
         simulateUserOperate.deleteUser("test");
-    }*/
+    }
 
     @Test
     public void intestImpl() throws Exception {
@@ -83,5 +85,17 @@ public class AopTest {
         simulateUserOperate.deleteUser("xxxx");
 
         inteface.deleteUser("yyyy");
+    }
+
+    @Test
+    public void nameMatchMethodPointCut() throws Exception {
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath*:/spring/spring-namemethod.xml");
+
+        SimulateUserNoInteface simulateUserNoInteface = context.getBean("factoryBean", SimulateUserNoInteface.class);
+
+        simulateUserNoInteface.deleteUser("zhangsan");
+
+        simulateUserNoInteface.updateUser("lisi");
     }
 }
