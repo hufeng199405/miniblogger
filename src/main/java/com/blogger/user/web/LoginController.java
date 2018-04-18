@@ -1,6 +1,7 @@
 package com.blogger.user.web;
 
 import com.blogger.user.domain.User;
+import com.blogger.user.service.CacheService;
 import com.blogger.user.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 类备注：
@@ -26,6 +29,9 @@ public class LoginController {
 
     @Autowired
     private UserService userServiceImpl;
+
+    @Autowired
+    private CacheService cacheService;
 
     // 可以配置多个映射url
     @RequestMapping(value = {"/", "/index.html"})
@@ -56,5 +62,15 @@ public class LoginController {
         }
 
         return result;
+    }
+
+    @RequestMapping("/cacheTest.action")
+    public String cacheTest(HttpServletRequest request, String userName) throws Exception{
+
+        User user = this.cacheService.getObj(userName);
+
+        request.setAttribute("lastIp", user.getLastIp());
+
+        return "login_succ";
     }
 }

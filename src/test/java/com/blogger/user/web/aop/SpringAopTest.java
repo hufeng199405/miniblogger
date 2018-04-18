@@ -2,6 +2,7 @@ package com.blogger.user.web.aop;
 
 import com.blogger.user.aop.SimulateUserNoInteface;
 import com.blogger.user.aop.SimulateUserOperateImpl;
+import com.blogger.user.service.UserService;
 import javafx.application.Application;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
 import javax.annotation.Resource;
@@ -22,21 +24,17 @@ import javax.annotation.Resource;
  * @desc
  * @since 1.8
  */
-@ContextConfiguration("classpath:spring/spring-aop.xml")
-public class SpringAopTest {
+@ContextConfiguration("classpath:spring.xml")
+public class SpringAopTest extends AbstractTransactionalTestNGSpringContextTests{
 
     Logger logger = Logger.getLogger(this.getClass());
 
-    @Resource
-    private SimulateUserOperateImpl aopTest;
+    @Autowired
+    private UserService userService;
 
     @Test
     public void springAoptest() throws Exception {
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/spring-aop.xml");
-
-        SimulateUserOperateImpl aa = context.getBean("aopTest", SimulateUserOperateImpl.class);
-
-        aa.updateUser("xxxx");
+        userService.updateUserLogin("123", "123");
     }
 }

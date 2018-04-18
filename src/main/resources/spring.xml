@@ -5,6 +5,7 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
@@ -12,29 +13,32 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
        http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+       http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
 
     <!--自动扫描包-->
     <context:component-scan base-package="com.blogger"/>
 
     <!-- 装配datasource -->
     <bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-        p:driverClassName="com.mysql.jdbc.Driver"
-        p:url="jdbc:mysql://localhost:3306/blogger?seUnicode=true&amp;characterEncoding=UTF8"
-        p:username="root"
-        p:password="hufeng"/>
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:url="jdbc:mysql://47.93.243.203:3306/user_db?seUnicode=true&amp;characterEncoding=UTF8"
+          p:username="root"
+          p:password="hufeng"/>
 
     <!--定义jdbcTemplate-->
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
-        p:dataSource-ref="datasource"/>
+          p:dataSource-ref="datasource"/>
 
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-        p:dataSource-ref="datasource"/>
+          p:dataSource-ref="datasource"/>
 
     <!-- 通过AOP配置提供事物，让service包下的所有bean的指定方法拥有事物，使用cglib代理 .*.*表示service下的所有的子包 (..)表示所有方法-->
     <aop:config proxy-target-class="true">
-        <aop:pointcut id="serviceMethod" expression="(execution(* com.blogger.user.service.*.*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))"/>
+        <aop:pointcut id="serviceMethod"
+                      expression="(execution(* com.blogger.user.service.*.*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
     </aop:config>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">

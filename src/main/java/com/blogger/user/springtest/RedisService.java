@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Service
 public class RedisService {
 
-    @Resource(name = "redisTemplate")
+    /*@Resource(name = "redisTemplate")
     private HashOperations hashOperations;
 
     public HashOperations getHashOperations() {
@@ -27,5 +27,5 @@ public class RedisService {
 
     public void setHashOperations(HashOperations hashOperations) {
         this.hashOperations = hashOperations;
-    }
+    }*/
 }

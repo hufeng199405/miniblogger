@@ -21,79 +21,70 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ThreadCalculate {
 
     @Test
-    public void forTest(){
+    public void forTest() throws Exception {
 
-        int i = 0 << 29;
+        FutureTask task = new FutureTask(() -> {
+            return "suceess";
+        });
 
-        System.out.println(i);
+        new Thread(task).start();
+
+        System.out.println(task.get());
     }
 
-    /*@Test
+    @Test
     public void test() throws Exception {
 
         // 创建一个文件
         File file = new File("d://xx//xxx.txt");
 
-        if (file == null) {
+        if (!file.exists()) {
 
-            file.mkdir();
+            //file.mkdirs();
         }
 
         FileOutputStream im = null;
 
-        BufferedOutputStream bis = null;
+        im = new FileOutputStream(file);
 
-        try {
+        BufferedOutputStream bis = new BufferedOutputStream(im);
 
-            im = new FileOutputStream(file);
+        // 获取file的channel
+        //Channel channel = im.getChannel();
 
-            bis = new BufferedOutputStream(im);
+        // 获取线程池对象
+        ExecutorService service = ThreadUtils.getThreadPool();
 
-            // 获取file的channel
-            //Channel channel = im.getChannel();
+        CountDownLatch countDownLatch = new CountDownLatch(10);
 
-            // 获取线程池对象
-            ExecutorService service = ThreadUtils.getThreadPool();
+        for (int i = 0; i < 10; i++) {
 
-            CountDownLatch countDownLatch = new CountDownLatch(10);
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
 
-            for (int i = 0; i < 10; i++) {
+                    try {
+                        String aa = Thread.currentThread().getName();
+                        System.out.println(aa);
+                        bis.write(aa.getBytes("UTF-8"));
+                        countDownLatch.countDown();
+                    } catch (Exception e) {
 
-                service.execute(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-
-                        readWriteLock.writeLock();
-
-                        try {
-                            String aa = Thread.currentThread().getName();
-                            System.out.print(aa);
-                            bis.write(aa.getBytes("UTF-8"));
-                            countDownLatch.countDown();
-                        } catch (Exception e) {
-
-                            e.printStackTrace();
-                        }
+                        e.printStackTrace();
                     }
-                });
-            }
+                }
+            };
 
-            countDownLatch.await();
-
-            bis.flush();
-            im.flush();
-        } catch (Exception e) {
-
-
-        } finally {
-
-            bis.close();
-            im.close();
+            service.submit(runnable);
         }
 
-    }*/
+        countDownLatch.await();
+
+        System.out.println(111);
+
+        bis.flush();
+        im.flush();
+    }
 
     @Test
     public void test1() throws Exception {
@@ -101,9 +92,9 @@ public class ThreadCalculate {
         // 创建一个文件
         File file = new File("d://xx//xxx.txt");
 
-        if (file == null) {
+        if (!file.exists()) {
 
-            file.mkdir();
+            //file.mkdirs();
         }
 
         FileOutputStream im = null;

@@ -8,7 +8,7 @@
     <bean class="com.blogger.user.aop.MyBeforAdvice" id="myBeforAdvice"/>
 
     <!--后置增强-->
-    <bean class="com.blogger.user.aop.MyAfterAdvice" id="myAfterAdvice"/>
+    <bean class="com.blogger.user.aop.MyAfterAdvice" id="myAfterAdvice" />
 
     <!--目标-->
     <bean class="com.blogger.user.aop.SimulateUserOperateImpl" id="simulateUserOperate"/>

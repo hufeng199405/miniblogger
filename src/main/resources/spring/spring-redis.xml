@@ -15,16 +15,16 @@
     <context:property-placeholder location="classpath*:redis.properties"/>
 
     <!--使用redis工厂连接-->
-    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+   <!-- <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:hostName="${redis.hostName}"
           p:port="${redis.port}"
           p:poolConfig-ref="poolConfig"
         p:timeout="${redis.timeout}"/>
 
-    <!--redis连接池,暂时配置，可为空-->
+    &lt;!&ndash;redis连接池,暂时配置，可为空&ndash;&gt;
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig"/>
 
-    <!--配置redis 模板访问-->
+    &lt;!&ndash;配置redis 模板访问&ndash;&gt;
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
-    p:connectionFactory-ref="jedisConnectionFactory"/>
+    p:connectionFactory-ref="jedisConnectionFactory"/>-->
 </beans>

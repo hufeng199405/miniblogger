@@ -23,7 +23,7 @@ public class RedisTest {
     @Test
     public void bossTest() {
 
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "spring/spring-redis.xml");
+        /*ApplicationContext applicationContext = new ClassPathXmlApplicationContext(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "spring/spring-redis.xml");
 
         RedisService redisService = applicationContext.getBean("redisService", RedisService.class);
 
@@ -31,6 +31,6 @@ public class RedisTest {
 
         redisService.getHashOperations().delete("test", "mykey");
 
-        logger.info(redisService.getHashOperations().get("test", "mykey"));
+        logger.info(redisService.getHashOperations().get("test", "mykey"));*/
     }
 }
