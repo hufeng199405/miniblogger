@@ -1,9 +1,8 @@
 package com.blogger.user.web;
 
-import com.blogger.user.aop.SimulateUserOperate;
-import com.blogger.user.aop.SimulateUserOperateImpl;
 import com.blogger.user.domain.User;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.persistence.FilePersistenceStrategy;
@@ -13,9 +12,7 @@ import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
 import java.io.*;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,7 @@ import java.util.List;
  * @desc
  * @since 1.8
  */
-public class MainTest {
+public class JsonTest {
 
     Logger logger = Logger.getLogger(this.getClass());
 
@@ -36,7 +33,7 @@ public class MainTest {
 
     static {
 
-        xStream = new XStream(new DomDriver());
+        xStream = new XStream(new JettisonMappedXmlDriver());
 
         // 需要转换的类型
         xStream.processAnnotations(User.class);
@@ -49,7 +46,7 @@ public class MainTest {
 
         User user = getUser();
 
-        objectToXml(user);
+        objectToJson(user);
 
         xmlToObject();
 
@@ -59,7 +56,7 @@ public class MainTest {
 
     public static void persist() {
 
-        File file = new File("user");
+        File file = new File("userjson");
 
         if (!file.exists()) {
 
@@ -82,16 +79,14 @@ public class MainTest {
         list.add(users);
     }
 
-    public static void objectToXml(User user) throws Exception {
+    public static void objectToJson(User user) throws Exception {
 
-        File file = new File("user.xml");
+        File file = new File("json.json");
 
         if (!file.exists()) {
 
             file.createNewFile();
         }
-
-        //OutputStream outputStream = new FileOutputStream(file);
 
         PrintWriter printWriter = new PrintWriter(file);
 
@@ -99,14 +94,24 @@ public class MainTest {
 
         ObjectOutputStream objectOutputStream = xStream.createObjectOutputStream(writer);
 
+        /*PrintWriter printWriter = new PrintWriter(file);
+
+        PrettyPrintWriter writer = new PrettyPrintWriter(printWriter);
+
+        ObjectOutputStream objectOutputStream = xStream.createObjectOutputStream(writer);
+
         objectOutputStream.writeObject(user);
 
-        objectOutputStream.close();
+        objectOutputStream.close();*/
+
+        xStream.setMode(XStream.NO_REFERENCES);
+
+        xStream.toXML(user, objectOutputStream);
     }
 
     public static void xmlToObject() throws Exception {
 
-        File file = new File("user.xml");
+        File file = new File("json.json");
 
         if (!file.exists()) {
 
@@ -135,47 +140,5 @@ public class MainTest {
         user.setLastIp("192.168.1.1");
 
         return user;
-    }
-
-    @Test
-    private void mytest() throws Exception {
-
-        /*String aa =  "1m² < X <= 10m²";
-
-        String regex = "\\d+";
-
-        Pattern pattern = Pattern.compile(regex);
-
-        Matcher matcher = pattern.matcher(aa);
-
-        while(matcher.find()){
-
-            logger.info(matcher.group());
-        }*/
-        /*BigDecimal bigDecimal = BigDecimal.valueOf(0.05);
-        BigDecimal bigDecimal1 = new BigDecimal(0.05);
-
-        logger.info(bigDecimal.add(BigDecimal.valueOf(5)));
-        logger.info(bigDecimal1.add(BigDecimal.valueOf(5)));*/
-
-        /*SimulateUserOperate simulateUserOperate = new SimulateUserOperateImpl();
-
-        SimulateUserOperate test = (SimulateUserOperate) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{SimulateUserOperate.class}, new InvocationHandler() {
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-                logger.info("运行方法前------------");
-
-                Object object = method.invoke(simulateUserOperate, args);
-
-                logger.info("运行方法后--------------");
-
-                return object;
-            }
-        });
-
-        test.deleteUser("test");*/
-
-
     }
 }

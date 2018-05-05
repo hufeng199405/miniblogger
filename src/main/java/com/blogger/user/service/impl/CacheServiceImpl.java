@@ -27,7 +27,7 @@ public class CacheServiceImpl implements CacheService{
     @Autowired
     private UserDao userDaoImpl;
 
-    @Cacheable(cacheNames = "cacheTest", key = "#user")
+    @Cacheable(cacheNames = "users", key = "#user")
     public User getObj(String user) throws Exception {
 
         logger.info("没命中缓存，使用查询完成!");

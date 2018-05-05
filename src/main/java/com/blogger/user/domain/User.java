@@ -1,5 +1,8 @@
 package com.blogger.user.domain;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,6 +16,7 @@ import java.util.Date;
  * @since 1.8
  */
 
+@XStreamAlias("user")
 public class User implements Serializable {
 
     /**

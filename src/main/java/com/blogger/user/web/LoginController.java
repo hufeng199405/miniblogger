@@ -71,6 +71,10 @@ public class LoginController {
 
         request.setAttribute("lastIp", user.getLastIp());
 
+        User user1 = this.cacheService.getObj(userName);
+
+        request.setAttribute("lastIp", user1.getLastIp());
+
         return "login_succ";
     }
 }
